@@ -37,11 +37,37 @@ namespace DevStore.Domain.StoreContext.Entities
             this._items.Add(item);
         }
 
-        public void AddDelivery(Delivery delivery)
+        public void Place() { }
+
+        public void Pay()
         {
-            this._deliveries.Add(delivery);
+            this.Status = EOrderStatus.Paid;
         }
 
-        public void Place() { }
+        public void Ship()
+        {
+            List<Delivery> deliveries = new List<Delivery>();
+            int count = 1;
+
+            foreach(OrderItem item in this._items)
+            {
+                if(count == 5)
+                {
+                    count = 0;
+                    deliveries.Add(new Delivery(DateTime.Now.AddDays(5)));
+                }
+                count++;
+            }
+
+            deliveries.ForEach(x => x.Ship());
+            deliveries.ForEach(x => this._deliveries.Add(x));
+        }
+
+        public void Cancel()
+        {
+            this.Status = EOrderStatus.Canceled;
+            this._deliveries.ToList().ForEach(x => x.Cancel());
+        }
+
     }
 }

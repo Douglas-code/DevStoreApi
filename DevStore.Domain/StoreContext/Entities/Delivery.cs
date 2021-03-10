@@ -17,5 +17,15 @@ namespace DevStore.Domain.StoreContext.Entities
         public DateTime EstimatedDeliveryDate { get; private set; }
 
         public EDeliveryStatus Status { get; private set; }
+
+        public void Ship()
+        {
+            this.Status = EDeliveryStatus.Shipped;
+        }
+
+        public void Cancel()
+        {
+            this.Status = EDeliveryStatus.Canceled;
+        }
     }
 }
