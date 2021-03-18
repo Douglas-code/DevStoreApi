@@ -1,10 +1,20 @@
-﻿namespace DevStore.Domain.StoreContext.ValueObjects
+﻿using Flunt.Notifications;
+using Flunt.Validations;
+
+namespace DevStore.Domain.StoreContext.ValueObjects
 {
-    public class Email
+    public class Email : Notifiable
     {
         public Email(string adress)
         {
             this.Address = adress;
+
+            AddNotifications
+            (
+                new Contract()
+                    .Requires()
+                    .IsEmail(this.Address, "Email", "Email inválido")
+            );
         }
 
         public string Address { get; private set; }

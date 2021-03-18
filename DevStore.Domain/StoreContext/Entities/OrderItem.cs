@@ -6,7 +6,7 @@
         {
             Product = product;
             Quantity = quantity;
-            Price = product.Prince;
+            Price = product.Price;
         }
 
         public Product Product { get; private set; }

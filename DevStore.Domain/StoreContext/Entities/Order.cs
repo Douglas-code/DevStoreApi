@@ -1,11 +1,13 @@
 ﻿using DevStore.Domain.StoreContext.Enums;
+using Flunt.Notifications;
+using Flunt.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DevStore.Domain.StoreContext.Entities
 {
-    public class Order
+    public class Order : Notifiable
     {
         private readonly IList<OrderItem> _items;
         private readonly IList<Delivery> _deliveries;
@@ -32,12 +34,19 @@ namespace DevStore.Domain.StoreContext.Entities
 
         public IReadOnlyCollection<Delivery> Deliveries => this._deliveries.ToArray();
 
-        public void AddItem(OrderItem item)
+        public void AddItem(Product product, int quantity)
         {
+            this.AddNotifications(new Contract().IsGreaterThan(quantity, product.QuantityOnHAnd, "OrderItem", $"Produto {product.Title} " +
+                $"não tem {quantity} em estoque"));
+
+            OrderItem item = new OrderItem(product, quantity);
             this._items.Add(item);
         }
 
-        public void Place() { }
+        public void Place() 
+        {
+            this.AddNotifications(new Contract().AreEquals(0, this._items.Count, "Order", "Este pedido não possui itens")); 
+        }
 
         public void Pay()
         {
@@ -68,6 +77,5 @@ namespace DevStore.Domain.StoreContext.Entities
             this.Status = EOrderStatus.Canceled;
             this._deliveries.ToList().ForEach(x => x.Cancel());
         }
-
     }
 }
