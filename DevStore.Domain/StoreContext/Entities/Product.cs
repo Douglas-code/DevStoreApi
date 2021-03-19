@@ -21,6 +21,11 @@
 
         public int QuantityOnHAnd { get; private set; }
 
+        public void DecreaseQuantity(int quantity)
+        {
+            this.QuantityOnHAnd -= quantity;
+        }
+
         public override string ToString()
         {
             return this.Title;

@@ -15,7 +15,6 @@ namespace DevStore.Domain.StoreContext.Entities
         public Order(Customer customer)
         {
             this.Customer = customer;
-            this.Number = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8).ToUpper();
             this.CreateDate = DateTime.Now;
             this.Status = EOrderStatus.Created;
             this._items = new List<OrderItem>();
@@ -45,6 +44,7 @@ namespace DevStore.Domain.StoreContext.Entities
 
         public void Place() 
         {
+            this.Number = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8).ToUpper();
             this.AddNotifications(new Contract().AreEquals(0, this._items.Count, "Order", "Este pedido não possui itens")); 
         }
 

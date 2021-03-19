@@ -7,6 +7,8 @@
             Product = product;
             Quantity = quantity;
             Price = product.Price;
+
+            product.DecreaseQuantity(quantity);
         }
 
         public Product Product { get; private set; }
