@@ -8,4 +8,8 @@
     <PackageReference Include="Flunt" Version="1.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DevStore.Shared\DevStore.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
