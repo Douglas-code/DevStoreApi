@@ -1,5 +1,4 @@
 ﻿using DevStore.Domain.StoreContext.Enums;
-using Flunt.Notifications;
 
 namespace DevStore.Domain.StoreContext.Entities
 {
