@@ -1,9 +1,11 @@
 ﻿using DevStore.Domain.StoreContext.Enums;
+using DevStore.Shared.Commands;
+using Flunt.Notifications;
 using System;
 
 namespace DevStore.Domain.StoreContext.Commands.CustomerCommads.Inputs
 {
-    public class AddAddressCommand
+    public class AddAddressCommand : Notifiable, ICommand
     {
         public Guid Id { get; set; }
 
@@ -24,5 +26,10 @@ namespace DevStore.Domain.StoreContext.Commands.CustomerCommads.Inputs
         public string ZipCode { get; set; }
 
         public EAddressType Type { get; set; }
+
+        public bool Validate()
+        {
+            return this.Valid;
+        }
     }
 }
