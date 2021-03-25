@@ -1,6 +1,8 @@
-﻿namespace DevStore.Domain.StoreContext.Entities
+﻿using DevStore.Shared.Entities;
+
+namespace DevStore.Domain.StoreContext.Entities
 {
-    public class OrderItem
+    public class OrderItem : Entity
     {
         public OrderItem(Product product, int quantity)
         {

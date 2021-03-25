@@ -1,9 +1,10 @@
 ﻿using DevStore.Domain.StoreContext.Enums;
+using DevStore.Shared.Entities;
 using System;
 
 namespace DevStore.Domain.StoreContext.Entities
 {
-    public class Delivery
+    public class Delivery : Entity
     {
         public Delivery(DateTime estimatedDekiveryDate)
         {

@@ -1,6 +1,8 @@
 ﻿using DevStore.Domain.StoreContext.Commands.CustomerCommads.Inputs;
 using DevStore.Domain.StoreContext.Commands.CustomerCommads.Outputs;
 using DevStore.Domain.StoreContext.Entities;
+using DevStore.Domain.StoreContext.Repositories;
+using DevStore.Domain.StoreContext.Services;
 using DevStore.Domain.StoreContext.ValueObjects;
 using DevStore.Shared.Commands;
 using DevStore.Shared.Handlers;
@@ -11,8 +13,27 @@ namespace DevStore.Domain.StoreContext.Handlers
 {
     public class CreateCustomerCommandHandler : Notifiable, ICommandHandler<CreateCustomerCommand>
     {
+        private readonly ICustomerRepository _repository;
+        private readonly IEmailService _emailService;
+
+        public CreateCustomerCommandHandler(ICustomerRepository repository, IEmailService emailService)
+        {
+            this._repository = repository;
+            this._emailService = emailService;
+        }
+
         public ICommandResult Handle(CreateCustomerCommand command)
         {
+            if (this._repository.CheckDocument(command.Document))
+            {
+                AddNotification("Document", "Este CPF já está em uso");
+            }
+
+            if (this._repository.CheckEmail(command.Email))
+            {
+                AddNotification("Email", "Este email já está em uso");
+            }
+
             Name name = new Name(command.FirstName, command.LastName);
             Document document = new Document(command.Document);
             Email email = new Email(command.Email);
@@ -22,8 +43,17 @@ namespace DevStore.Domain.StoreContext.Handlers
             AddNotifications(name.Notifications);
             AddNotifications(document.Notifications);
             AddNotifications(email.Notifications);
+
+            if (this.Invalid)
+            {
+                return null;
+            }
+
+            this._repository.Save(customer);
+
+            this._emailService.Send(email.Address, "dg@gmail.com", "Bem Vindo", "Seja bem vindo a Dev Store!");
             
-            return new CreateCustomerCommandResult(Guid.NewGuid(), name.ToString(), email.Address);
+            return new CreateCustomerCommandResult(customer.Id, name.ToString(), email.Address);
         }
     }
 }
