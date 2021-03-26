@@ -19,6 +19,9 @@ namespace DevStore.Tests.Handlers
             Assert.True(command.Validate());
 
             CreateCustomerCommandHandler handler = new CreateCustomerCommandHandler(new FakeCustomerRepository(), new FakeEmailService());
+            var result = handler.Handle(command);
+
+            Assert.False(result == null);
             Assert.True(handler.Valid);
         }
     }
