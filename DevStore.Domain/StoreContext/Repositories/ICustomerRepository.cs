@@ -1,4 +1,5 @@
 ﻿using DevStore.Domain.StoreContext.Entities;
+using DevStore.Domain.StoreContext.Queries;
 
 namespace DevStore.Domain.StoreContext.Repositories
 {
@@ -9,5 +10,7 @@ namespace DevStore.Domain.StoreContext.Repositories
         bool CheckEmail(string email);
 
         void Save(Customer customer);
+
+        CustomerOrdersCountResult GetCustomerOrdersCount(string document);
     }
 }

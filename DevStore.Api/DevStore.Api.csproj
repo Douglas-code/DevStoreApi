@@ -9,12 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DevStore.Domain\DevStore.Domain.csproj" />
-    <ProjectReference Include="..\DevStore.Infra\DevStore.Infra.csproj" />
+    <ProjectReference Include="..\DevStore.Shared\DevStore.Shared.csproj" />
   </ItemGroup>
 
 </Project>

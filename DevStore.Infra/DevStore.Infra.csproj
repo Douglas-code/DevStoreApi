@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Scripts\Procedures\spGetCustomerOrdersCountResul.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>spGetCustomerOrdersCountResul.sql</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DevStore.Domain\DevStore.Domain.csproj" />
   </ItemGroup>
 
@@ -14,7 +22,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="StoreContext\Repositories\" />
+    <None Update="Scripts\Procedures\spGetCustomerOrdersCountResul.sql">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>spGetCustomerOrdersCountResul.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Scripts\Procedures\spGetCustomerOrdersCountResul.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>spGetCustomerOrdersCountResul.sql</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

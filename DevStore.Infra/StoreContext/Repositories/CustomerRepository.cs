@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using DevStore.Domain.StoreContext.Entities;
+using DevStore.Domain.StoreContext.Queries;
 using DevStore.Domain.StoreContext.Repositories;
 using DevStore.Infra.StoreContext.DataContext;
 using System.Data;
@@ -28,6 +29,13 @@ namespace DevStore.Infra.StoreContext.Repositories
             return this._context.Connection
                 .Query<bool>("spCheckEmail", new { Email = email }, commandType: CommandType.StoredProcedure)
                 .FirstOrDefault();
+        }
+
+        public CustomerOrdersCountResult GetCustomerOrdersCount(string document)
+        {
+            return this._context.Connection
+                   .Query<CustomerOrdersCountResult>("spGetCustomerOrdersCountResult", new { Document = document }, commandType: CommandType.StoredProcedure)
+                   .FirstOrDefault();
         }
 
         public void Save(Customer customer)
