@@ -3,6 +3,8 @@ using DevStore.Domain.StoreContext.Entities;
 using DevStore.Domain.StoreContext.Queries;
 using DevStore.Domain.StoreContext.Repositories;
 using DevStore.Infra.StoreContext.DataContext;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -31,11 +33,33 @@ namespace DevStore.Infra.StoreContext.Repositories
                 .FirstOrDefault();
         }
 
+        public IEnumerable<ListCustomerQueryResult> Get()
+        {
+            return this._context.Connection
+                .Query<ListCustomerQueryResult>("SELECT [Id], CONCACT([FirstName], ' ', [LastName]) AS [Name], [Document], [Email] FROM [Customer]", new { });
+        }
+
+        public GetCustomerQueryResult GetById(Guid id)
+        {
+            return this._context.Connection
+                .Query<GetCustomerQueryResult>
+                ("SELECT [Id], CONCACT([FirstName], ' ', [LastName]) AS [Name], [Document], [Email] FROM [Customer] WHERE [Id] = @Id",
+                new { Id = id }).FirstOrDefault();
+        }
+
         public CustomerOrdersCountResult GetCustomerOrdersCount(string document)
         {
             return this._context.Connection
                    .Query<CustomerOrdersCountResult>("spGetCustomerOrdersCountResult", new { Document = document }, commandType: CommandType.StoredProcedure)
                    .FirstOrDefault();
+        }
+
+        public IEnumerable<ListCustomerOrdersQueryResult> GetOrders(Guid id)
+        {
+            return this._context.Connection
+                .Query<ListCustomerOrdersQueryResult>
+                ("",
+                new { Id = id });
         }
 
         public void Save(Customer customer)
@@ -50,9 +74,9 @@ namespace DevStore.Infra.StoreContext.Repositories
                 Phone = customer.Phone
             }, commandType: CommandType.StoredProcedure);
 
-            foreach(Address address in customer.Addresses)
+            foreach (Address address in customer.Addresses)
             {
-                this._context.Connection.Execute("spCreateAddress", new 
+                this._context.Connection.Execute("spCreateAddress", new
                 {
                     Id = address.Id,
                     CustomerId = customer.Id,

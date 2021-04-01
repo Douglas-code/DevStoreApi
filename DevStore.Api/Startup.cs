@@ -2,6 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DevStore.Domain.StoreContext.Repositories;
+using DevStore.Domain.StoreContext.Services;
+using DevStore.Infra.StoreContext.DataContext;
+using DevStore.Infra.StoreContext.Repositories;
+using DevStore.Infra.StoreContext.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +37,10 @@ namespace DevStore.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DevStore.Api", Version = "v1" });
             });
+
+            services.AddScoped<DevDataContext, DevDataContext>();
+            services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

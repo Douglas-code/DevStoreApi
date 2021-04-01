@@ -1,4 +1,6 @@
 ﻿using DevStore.Domain.StoreContext.Entities;
+using DevStore.Domain.StoreContext.Queries;
+using DevStore.Domain.StoreContext.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,17 +11,24 @@ namespace DevStore.Api.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
+        private readonly ICustomerRepository _repository;
+
+        public CustomerController(ICustomerRepository repository)
+        {
+           this._repository = repository;
+        }
+
         [HttpGet]
         [Route("customers")]
-        public List<Customer> Get() => null;
+        public IEnumerable<ListCustomerQueryResult> Get() => this._repository.Get();
 
         [HttpGet]
         [Route("customers/{id}")]
-        public Customer GetById(Guid id) => null;
+        public GetCustomerQueryResult GetById(Guid id) => this._repository.GetById(id);
 
         [HttpGet]
         [Route("customers/{id}/orders")]
-        public List<Customer> GetOrders(Guid id) => null;
+        public IEnumerable<ListCustomerOrdersQueryResult> GetOrders(Guid id) => this._repository.GetOrders(id);
 
         [HttpPost]
         [Route("customers")]
