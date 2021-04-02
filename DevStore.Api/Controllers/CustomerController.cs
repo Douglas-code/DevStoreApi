@@ -26,6 +26,7 @@ namespace DevStore.Api.Controllers
 
         [HttpGet]
         [Route("v1/customers")]
+        [ResponseCache(Duration = 60)]
         public IEnumerable<ListCustomerQueryResult> Get()
         {
             return this._repository.Get();
