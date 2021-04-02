@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DevStore.Domain.StoreContext.Handlers;
 using DevStore.Domain.StoreContext.Repositories;
 using DevStore.Domain.StoreContext.Services;
 using DevStore.Infra.StoreContext.DataContext;
@@ -41,6 +42,7 @@ namespace DevStore.Api
             services.AddScoped<DevDataContext, DevDataContext>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<CreateCustomerCommandHandler, CreateCustomerCommandHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
