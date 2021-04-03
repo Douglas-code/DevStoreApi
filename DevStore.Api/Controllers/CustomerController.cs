@@ -1,10 +1,9 @@
-﻿using DevStore.Domain.StoreContext.Commands.CustomerCommads.Inputs;
-using DevStore.Domain.StoreContext.Commands.CustomerCommads.Outputs;
+﻿using DevStore.Domain.StoreContext.Commands;
+using DevStore.Domain.StoreContext.Commands.CustomerCommads.Inputs;
 using DevStore.Domain.StoreContext.Entities;
 using DevStore.Domain.StoreContext.Handlers;
 using DevStore.Domain.StoreContext.Queries;
 using DevStore.Domain.StoreContext.Repositories;
-using DevStore.Shared.Commands;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -48,9 +47,9 @@ namespace DevStore.Api.Controllers
 
         [HttpPost]
         [Route("v1/customers")]
-        public CreateCustomerCommandResult Post([FromBody] CreateCustomerCommand command)
+        public CommandResult Post([FromBody] CreateCustomerCommand command)
         {
-            var result = (CreateCustomerCommandResult)this._handler.Handle(command);
+            var result = (CommandResult)this._handler.Handle(command);
             return result;
         }
 

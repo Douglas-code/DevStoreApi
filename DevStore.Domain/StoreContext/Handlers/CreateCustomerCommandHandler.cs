@@ -1,4 +1,5 @@
-﻿using DevStore.Domain.StoreContext.Commands.CustomerCommads.Inputs;
+﻿using DevStore.Domain.StoreContext.Commands;
+using DevStore.Domain.StoreContext.Commands.CustomerCommads.Inputs;
 using DevStore.Domain.StoreContext.Commands.CustomerCommads.Outputs;
 using DevStore.Domain.StoreContext.Entities;
 using DevStore.Domain.StoreContext.Repositories;
@@ -24,6 +25,11 @@ namespace DevStore.Domain.StoreContext.Handlers
 
         public ICommandResult Handle(CreateCustomerCommand command)
         {
+            if (!command.Validate())
+            {
+                return new CommandResult(false, "Falha ao cadastrar cliente", command.Notifications);
+            }
+
             if (this._repository.CheckDocument(command.Document))
             {
                 AddNotification("Document", "Este CPF já está em uso");
@@ -46,14 +52,14 @@ namespace DevStore.Domain.StoreContext.Handlers
 
             if (this.Invalid)
             {
-                return null;
+                return new CommandResult(false, "Falha ao cadastrar cliente", this.Notifications);
             }
 
             this._repository.Save(customer);
 
             this._emailService.Send(email.Address, "dg@gmail.com", "Bem Vindo", "Seja bem vindo a Dev Store!");
-            
-            return new CreateCustomerCommandResult(customer.Id, name.ToString(), email.Address);
+
+            return new CommandResult(true, "Cliente cadastrado com successo!", new { Id = customer.Id, Name = customer.Name.ToString(), Email = customer.Email.Address }); ;
         }
     }
 }
